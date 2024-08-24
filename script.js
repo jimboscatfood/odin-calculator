@@ -39,3 +39,15 @@ function operate(operator, numOne, numTwo) {
             divide();
     }
 }
+
+//Populate the display when you click the number buttons
+const display = document.querySelector(".display");
+const numKeys = document.querySelectorAll(".numKey");
+
+numKeys.forEach((button) => {
+    button.addEventListener("click", () => {
+        const keyInput = button.textContent;
+        display.textContent += `${keyInput}`;
+        console.log(keyInput);
+    });
+});

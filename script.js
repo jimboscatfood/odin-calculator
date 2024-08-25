@@ -1,33 +1,25 @@
 //4 basic arthiemtical functions
-function add(numOne, numTwo) {
-    const num1 = +numOne;
-    const num2 = +numTwo;
-    const operator = '+';
-    return num1 + num2;
+function add(num1, num2) {
+    
+    return +num1 + +num2;
 }
 
-function subtract(numOne, numTwo) {
-    const num1 = +numOne;
-    const num2 = +numTwo;
-    const operator = '-';
-    return num1 - num2;
+function subtract(num1, num2) {
+    
+    return +num1 - +num2;
 }
 
-function multiply(numOne, numTwo) {
-    const num1 = +numOne;
-    const num2 = +numTwo;
-    const operator = '*';
-    return num1 * num2;
+function multiply(num1, num2) {
+    
+    return +num1 * +num2;
 }
 
-function divide(numOne, numTwo) {
-    const num1 = +numOne;
-    const num2 = +numTwo;
-    const operator = '/';
-    return num1/num2;
+function divide(num1, num2) {
+    
+    return +num1/+num2;
 }
 
-function operate(operator, numOne, numTwo) {
+function operate(operator, num1, num2) {
     switch(operator) {
         case '+':
             add();
@@ -51,3 +43,8 @@ numKeys.forEach((button) => {
         console.log(keyInput);
     });
 });
+
+//Store the display value for next step
+let firstNum;
+let operator;
+let secondNum;

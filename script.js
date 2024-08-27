@@ -38,7 +38,7 @@ function operate(operator, num1, num2) {
 }
 
 //Store and initialise the display value for next step
-let results = 0;
+let results;
 let prevNum;
 let operator;
 let presentNum;
@@ -48,7 +48,8 @@ let presentNum;
 const display = document.querySelector(".display");
 const numKeys = document.querySelectorAll(".numKey");
 const operators = document.querySelectorAll(".operator");
-display.textContent = `${results}`;
+//Default display
+display.textContent = '0';
 
 //Listen for number keys
 numKeys.forEach((button) => {
@@ -95,4 +96,20 @@ const equal = document.querySelector("#equal");
 equal.addEventListener("click", () => {
     operate(operator, prevNum, presentNum);
 });
+
+//Listen for function buttons
+const functions = document.querySelectorAll(".function");
+functions.forEach((button) => {
+    button.addEventListener("click", () => {
+        switch (button.id) {
+            case ("clear"):
+                results = undefined;
+                prevNum = undefined;
+                operator = undefined;
+                presentNum = undefined;
+                display.textContent = '0';
+                break;            
+        }
+    })
+})
 

@@ -71,6 +71,10 @@ numKeys.forEach((button) => {
 //Listen for operator
 operators.forEach((button) => {
     button.addEventListener("click", () => {
+        //Add a statement to handle more than 2/ a pair of numbers
+        if (prevNum !== undefined && presentNum !== undefined && operator!== undefined) {
+            operate(operator, prevNum, presentNum);
+        }
         //Only lock in the value of the firstNum when an operator is clicked
         prevNum = display.textContent;
         //Change value of operator based on button clicked
@@ -88,7 +92,7 @@ operators.forEach((button) => {
                 operator = '+';
                 break;
         }
-    });
+});
 });
 
 //Listen for Equal button

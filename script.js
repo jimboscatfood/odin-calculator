@@ -1,4 +1,4 @@
-//4 basic arthiemtical functions
+//4 basic arithmetic functions
 function add(num1, num2) {
     
     return +num1 + +num2;
@@ -55,7 +55,8 @@ display.textContent = '0';
 numKeys.forEach((button) => {
     button.addEventListener("click", function() {
         const keyInput = button.textContent;
-        if (display.textContent === '0') {
+        prevButton = button.className;
+        if (display.textContent === '0' || prevButton === 'operator') {
             display.textContent = `${keyInput}`;
         }
         else if (display.textContent === `${prevNum}`) {
@@ -68,31 +69,57 @@ numKeys.forEach((button) => {
     });
 });
 
+//Declare global variable to track the class of last button clicked
+let prevButton = undefined;
+
 //Listen for operator
 operators.forEach((button) => {
     button.addEventListener("click", () => {
-        //Add a statement to handle more than 2/ a pair of numbers
-        if (prevNum !== undefined && presentNum !== undefined && operator!== undefined) {
-            operate(operator, prevNum, presentNum);
+        //Check if previous button clicked is an operator
+        //If yes then just change the operator variable and leave the prevNum and presentNum variables the same
+        if (prevButton === 'operator') {
+            switch (button.id) {
+                case ("divide"):
+                    operator = '/';
+                    break;
+                case ("multiply"):
+                    operator = '*';
+                    break;
+                case ("subtract"):
+                    operator = '-';
+                    break;
+                case ("add"):
+                    operator = '+';
+                    break;
+            }
+            prevButton = button.className;
         }
-        //Only lock in the value of the firstNum when an operator is clicked
-        prevNum = display.textContent;
-        //Change value of operator based on button clicked
-        switch (button.id) {
-            case ("divide"):
-                operator = '/';
-                break;
-            case ("multiply"):
-                operator = '*';
-                break;
-            case ("subtract"):
-                operator = '-';
-                break;
-            case ("add"):
-                operator = '+';
-                break;
+        
+        else {
+            prevButton = button.className;
+            //Add a statement to handle more than 2/ a pair of numbers
+            if (prevNum !== undefined && presentNum !== undefined && operator!== undefined) {
+                operate(operator, prevNum, presentNum);
+            }
+            //Only lock in the value of the firstNum when an operator is clicked
+            prevNum = display.textContent;
+            //Change value of operator based on button clicked
+            switch (button.id) {
+                case ("divide"):
+                    operator = '/';
+                    break;
+                case ("multiply"):
+                    operator = '*';
+                    break;
+                case ("subtract"):
+                    operator = '-';
+                    break;
+                case ("add"):
+                    operator = '+';
+                    break;
+               }
         }
-});
+    });
 });
 
 //Listen for Equal button

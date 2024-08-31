@@ -59,13 +59,39 @@ let operator;
 //Initialise presentNum to be what is being display on screen intially i.e., 0
 let presentNum = +(display.textContent);
 
+//Make reference to decimal point button
+const decimal = document.querySelector("#decimal");
+
+decimal.addEventListener("click", function() {
+    //If the display includes decimal point
+    if (display.textContent.includes('.')) {
+        //Check if the last button is an operator
+        if (prevButton === 'operator') {
+            //If it is an operator, display 0 before the decimal point
+            display.textContent = '0' + `${decimal.textContent}`;
+        }
+    }
+    //If the display doesn't have decimal point
+    else {
+        //Also check if the last button is an operator
+        if (prevButton === 'operator') {
+            //If it is an operator, display 0 before the decimal point
+            display.textContent = '0' + `${decimal.textContent}`;
+        }
+            //Else just add the decimal point to the display
+        else {
+            display.textContent += `${decimal.textContent}`;
+        }
+        
+    }
+});
 
 //Listen for number keys
 numKeys.forEach((button) => {
     button.addEventListener("click", function() {
         const keyInput = button.textContent;
         prevButton = button.className;
-        if (display.textContent === '0' || prevButton === 'operator') {
+        if (display.textContent === '0' || prevButton === 'operator' && !presentNum.includes('.')) {
             display.textContent = `${keyInput}`;
         }
         else if (display.textContent === `${prevNum}`) {
@@ -150,6 +176,7 @@ functions.forEach((button) => {
                 operator = undefined;
                 presentNum = undefined;
                 display.textContent = '0';
+                prevButton = undefined;
                 break;            
         }
     })

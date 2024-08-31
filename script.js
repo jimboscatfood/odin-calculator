@@ -34,7 +34,8 @@ function operate(operator, num1, num2) {
             results = divide(num1, num2);
             break;
     }
-    display.textContent = `${results}`;
+    //Round display results to 7 decimal places
+    display.textContent = `${Math.round(results * 10000000)/10000000}`;
 }
 
 //Store and initialise the display value for next step

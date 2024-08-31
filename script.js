@@ -20,22 +20,28 @@ function divide(num1, num2) {
 }
 
 function operate(operator, num1, num2) {
-    switch(operator) {
-        case '+':
-            results = add(num1, num2);
-            break;
-        case '-':
-            results = subtract(num1, num2);
-            break;
-        case '*':
-            results = multiply(num1, num2);
-            break;
-        case '/':
-            results = divide(num1, num2);
-            break;
+    //Display error message if user tries to divide by 0
+    if (operator == '/' && num2 == '0') {
+        display.textContent = "You can't divide by 0 bro"
     }
-    //Round display results to 7 decimal places
-    display.textContent = `${Math.round(results * 10000000)/10000000}`;
+    else {
+        switch(operator) {
+            case '+':
+                results = add(num1, num2);
+                break;
+            case '-':
+                results = subtract(num1, num2);
+                break;
+            case '*':
+                results = multiply(num1, num2);
+                break;
+            case '/':
+                results = divide(num1, num2);
+                break;
+        }
+        //Round display results to 7 decimal places
+        display.textContent = `${Math.round(results * 10000000)/10000000}`;
+    }
 }
 
 

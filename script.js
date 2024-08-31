@@ -38,12 +38,6 @@ function operate(operator, num1, num2) {
     display.textContent = `${Math.round(results * 10000000)/10000000}`;
 }
 
-//Store and initialise the display value for next step
-let results;
-let prevNum;
-let operator;
-let presentNum;
-
 
 //Populate the display when you click the number buttons
 const display = document.querySelector(".display");
@@ -51,6 +45,14 @@ const numKeys = document.querySelectorAll(".numKey");
 const operators = document.querySelectorAll(".operator");
 //Default display
 display.textContent = '0';
+
+//Store and initialise the display value for next step
+let results;
+let prevNum;
+let operator;
+//Initialise presentNum to be what is being display on screen intially i.e., 0
+let presentNum = +(display.textContent);
+
 
 //Listen for number keys
 numKeys.forEach((button) => {
@@ -125,9 +127,11 @@ operators.forEach((button) => {
 
 //Listen for Equal button
 const equal = document.querySelector("#equal");
-equal.addEventListener("click", () => {
-    operate(operator, prevNum, presentNum);
-});
+equal.addEventListener("click", () => 
+    //Check if anything has been entered, if not then display 0
+    prevNum == undefined?
+    display.textContent = `${presentNum}`:operate(operator, prevNum, presentNum)
+);
 
 //Listen for function buttons
 const functions = document.querySelectorAll(".function");

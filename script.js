@@ -74,6 +74,13 @@ decimal.addEventListener("click", function() {
             //If it is an operator, display 0 before the decimal point
             display.textContent = '0' + `${decimal.textContent}`;
         }
+        else if (prevButton === 'equal') {
+            display.textContent = '0' + `${decimal.textContent}`;
+            //Reset the stored values in global variables
+            operator = undefined;
+            prevNum = undefined;
+            presentNum = 0;
+        }
     }
     //If the display doesn't have decimal point
     else {
@@ -81,6 +88,14 @@ decimal.addEventListener("click", function() {
         if (prevButton === 'operator') {
             //If it is an operator, display 0 before the decimal point
             display.textContent = '0' + `${decimal.textContent}`;
+        }
+        //If the decimal point button is pressed after equal button is pressed, the storage should reset
+        else if (prevButton === 'equal') {
+            display.textContent = '0' + `${decimal.textContent}`;
+            //Reset the stored values in global variables
+            operator = undefined;
+            prevNum = undefined;
+            presentNum = 0;
         }
             //Else just add the decimal point to the display
         else {
@@ -94,8 +109,8 @@ decimal.addEventListener("click", function() {
 numKeys.forEach((button) => {
     button.addEventListener("click", function() {
         const keyInput = button.textContent;
-        prevButton = button.className;
-        if (display.textContent === '0' || prevButton === 'operator' && !presentNum.includes('.')) {
+        
+        if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
             display.textContent = `${keyInput}`;
         }
         else if (display.textContent === `${prevNum}`) {
@@ -104,7 +119,8 @@ numKeys.forEach((button) => {
         else {
             display.textContent += `${keyInput}`;
         }
-        presentNum = display.textContent;
+        presentNum = +(display.textContent);
+        prevButton = button.className;
     });
 });
 
@@ -141,7 +157,7 @@ operators.forEach((button) => {
                 operate(operator, prevNum, presentNum);
             }
             //Only lock in the value of the firstNum when an operator is clicked
-            prevNum = display.textContent;
+            prevNum = +(display.textContent);
             //Change value of operator based on button clicked
             switch (button.id) {
                 case ("divide"):
@@ -163,11 +179,12 @@ operators.forEach((button) => {
 
 //Listen for Equal button
 const equal = document.querySelector("#equal");
-equal.addEventListener("click", () => 
+equal.addEventListener("click", () => {
     //Check if anything has been entered, if not then display 0
-    prevNum == undefined?
-    display.textContent = `${presentNum}`:operate(operator, prevNum, presentNum)
-);
+    prevNum == undefined || prevButton === 'equal'?
+    display.textContent = `${presentNum}`:operate(operator, prevNum, presentNum);
+    prevButton = "equal";
+});
 
 //Listen for function buttons
 const functions = document.querySelectorAll(".function");
@@ -182,9 +199,7 @@ functions.forEach((button) => {
                 display.textContent = '0';
                 prevButton = undefined;
                 break;   
-            
-
-            }         
+        }         
     })
 })
 

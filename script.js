@@ -40,7 +40,11 @@ function operate(operator, num1, num2) {
                 break;
         }
         //Round display results to 7 decimal places
-        display.textContent = `${Math.round(results * 10000000)/10000000}`;
+        display.textContent = `${Math.round(results * 10000000)/10000000}`
+        //Update prevNum
+        prevNum = presentNum;
+        //Update presentNum to number currently being displayed after operate function is called
+        presentNum = +(display.textContent);
     }
 }
 
@@ -177,8 +181,10 @@ functions.forEach((button) => {
                 presentNum = undefined;
                 display.textContent = '0';
                 prevButton = undefined;
-                break;            
-        }
+                break;   
+            
+
+            }         
     })
 })
 

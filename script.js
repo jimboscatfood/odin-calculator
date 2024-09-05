@@ -136,51 +136,44 @@ numKeys.forEach((button) => {
 //Declare global variable to track the class of last button clicked
 let prevButton = undefined;
 
+//Create function for changing value operator variable
+function changeOperator(buttonID) {
+    switch (buttonID) {
+        case ("divide"):
+            operator = '/';
+            break;
+        case ("multiply"):
+            operator = '*';
+            break;
+        case ("subtract"):
+            operator = '-';
+            break;
+        case ("add"):
+            operator = '+';
+            break;
+    }
+}
+
 //Listen for operator
 //Cases when operator will be pressed
 //1. Selecting another operator when user already clicked on one
 //2. After a result is displayed after user clicked on equal button
-//3. 
+//3. Any other conditions
 operators.forEach((button) => {
     button.addEventListener("click", () => {
         //Case 1
         //Check if previous button clicked is an operator 
         //If yes then just change the operator variable and do nothing else
         if (prevButton === 'operator') {
-            switch (button.id) {
-                case ("divide"):
-                    operator = '/';
-                    break;
-                case ("multiply"):
-                    operator = '*';
-                    break;
-                case ("subtract"):
-                    operator = '-';
-                    break;
-                case ("add"):
-                    operator = '+';
-                    break;
-            }
+            changeOperator(button.id);
         }
+
         //Case 2
         else if (prevButton === 'equal') {
             //Store the displayed results to prevNum
             prevNum = +(display.textContent);
             //Change operator value stored for the next operation
-            switch (button.id) {
-                case ("divide"):
-                    operator = '/';
-                    break;
-                case ("multiply"):
-                    operator = '*';
-                    break;
-                case ("subtract"):
-                    operator = '-';
-                    break;
-                case ("add"):
-                    operator = '+';
-                    break;
-               }
+            changeOperator(button.id);
         }
         
         else {
@@ -191,20 +184,7 @@ operators.forEach((button) => {
             //Only lock in the value of the firstNum when an operator is clicked
             prevNum = +(display.textContent);
             //Change value of operator based on button clicked
-            switch (button.id) {
-                case ("divide"):
-                    operator = '/';
-                    break;
-                case ("multiply"):
-                    operator = '*';
-                    break;
-                case ("subtract"):
-                    operator = '-';
-                    break;
-                case ("add"):
-                    operator = '+';
-                    break;
-               }
+            changeOperator(button.id);
         }
         prevButton = button.className;    
     });

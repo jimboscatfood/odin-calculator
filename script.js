@@ -48,6 +48,15 @@ function operate(operator, num1, num2) {
     }
 }
 
+//Create function to reset variables and display for the clear button
+function clear() {
+    results = undefined;
+    prevNum = undefined;
+    presentNum = undefined;
+    operator = undefined;
+    display.textContent = '0';
+    prevButton = undefined;
+}
 
 //Populate the display when you click the number buttons
 const display = document.querySelector(".display");
@@ -192,13 +201,11 @@ functions.forEach((button) => {
     button.addEventListener("click", () => {
         switch (button.id) {
             case ("clear"):
-                results = undefined;
-                prevNum = undefined;
-                operator = undefined;
-                presentNum = undefined;
-                display.textContent = '0';
-                prevButton = undefined;
-                break;   
+                clear();
+                break;
+            //Switch signs
+            case ("signs"):
+
         }         
     })
 })

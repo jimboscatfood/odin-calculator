@@ -137,10 +137,15 @@ numKeys.forEach((button) => {
 let prevButton = undefined;
 
 //Listen for operator
+//Cases when operator will be pressed
+//1. Selecting another operator when user already clicked on one
+//2. After a result is displayed after user clicked on equal button
+//3. 
 operators.forEach((button) => {
     button.addEventListener("click", () => {
-        //Check if previous button clicked is an operator
-        //If yes then just change the operator variable and leave the prevNum and presentNum variables the same
+        //Case 1
+        //Check if previous button clicked is an operator 
+        //If yes then just change the operator variable and do nothing else
         if (prevButton === 'operator') {
             switch (button.id) {
                 case ("divide"):
@@ -156,11 +161,29 @@ operators.forEach((button) => {
                     operator = '+';
                     break;
             }
-            prevButton = button.className;
+        }
+        //Case 2
+        else if (prevButton === 'equal') {
+            //Store the displayed results to prevNum
+            prevNum = +(display.textContent);
+            //Change operator value stored for the next operation
+            switch (button.id) {
+                case ("divide"):
+                    operator = '/';
+                    break;
+                case ("multiply"):
+                    operator = '*';
+                    break;
+                case ("subtract"):
+                    operator = '-';
+                    break;
+                case ("add"):
+                    operator = '+';
+                    break;
+               }
         }
         
         else {
-            prevButton = button.className;
             //Add a statement to handle more than 2/ a pair of numbers
             if (prevNum !== undefined && presentNum !== undefined && operator!== undefined) {
                 operate(operator, prevNum, presentNum);
@@ -183,6 +206,7 @@ operators.forEach((button) => {
                     break;
                }
         }
+        prevButton = button.className;    
     });
 });
 

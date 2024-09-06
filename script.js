@@ -134,10 +134,11 @@ numKeys.forEach((button) => {
 });
 
 //Listen for number keys from pressing keyboard
-//Adopt similar logic as mouse clicking the numKeys
 document.addEventListener("keypress", function(event) {
     const keyInput = parseInt(event.key);
     //Set up condition to only allow for numbers to be added to display
+    //IF it is a number
+    //THEN use the similar logic as mouseclicking the numKeys
     if (!isNaN(keyInput)) {
         if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
             display.textContent = `${keyInput}`;
@@ -151,7 +152,47 @@ document.addEventListener("keypress", function(event) {
         presentNum = +(display.textContent);
         prevButton = 'numKey';
     }
-})
+    //ELSE IF the event key is a decimal point
+    //THEN use the same logic as mouseclicking the decimal
+    else if (event.key === '.') {
+        //If the display includes decimal point
+        if (display.textContent.includes('.')) {
+            //Check if the last button is an operator
+            if (prevButton === 'operator') {
+                //If it is an operator, display 0 before the decimal point
+                display.textContent = '0' + `${decimal.textContent}`;
+            }
+            else if (prevButton === 'equal') {
+                display.textContent = '0' + `${decimal.textContent}`;
+                //Reset the stored values in global variables
+                operator = undefined;
+                prevNum = undefined;
+                presentNum = 0;
+            }
+        }
+        //If the display doesn't have decimal point
+        else {
+            //Also check if the last button is an operator
+            if (prevButton === 'operator') {
+                //If it is an operator, display 0 before the decimal point
+                display.textContent = '0' + `${decimal.textContent}`;
+            }
+            //If the decimal point button is pressed after equal button is pressed, the storage should reset
+            else if (prevButton === 'equal') {
+                display.textContent = '0' + `${decimal.textContent}`;
+                //Reset the stored values in global variables
+                operator = undefined;
+                prevNum = undefined;
+                presentNum = 0;
+            }
+                //Else just add the decimal point to the display
+            else {
+                display.textContent += `${decimal.textContent}`;
+            }
+        }        
+    }
+});
+
 
 //Declare global variable to track the class of last button clicked
 let prevButton = undefined;

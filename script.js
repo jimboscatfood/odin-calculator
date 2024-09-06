@@ -133,6 +133,26 @@ numKeys.forEach((button) => {
     });
 });
 
+//Listen for number keys from pressing keyboard
+//Adopt similar logic as mouse clicking the numKeys
+document.addEventListener("keypress", function(event) {
+    const keyInput = parseInt(event.key);
+    //Set up condition to only allow for numbers to be added to display
+    if (!isNaN(keyInput)) {
+        if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
+            display.textContent = `${keyInput}`;
+        }
+        else if (display.textContent === `${prevNum}`) {
+            display.textContent = `${keyInput}`;
+        }
+        else {
+            display.textContent += `${keyInput}`;
+        }
+        presentNum = +(display.textContent);
+        prevButton = 'numKey';
+    }
+})
+
 //Declare global variable to track the class of last button clicked
 let prevButton = undefined;
 
@@ -221,6 +241,6 @@ functions.forEach((button) => {
                 presentNum = +(display.textContent);
                 break;
         }         
-    })
-})
+    });
+});
 

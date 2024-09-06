@@ -212,6 +212,9 @@ functions.forEach((button) => {
                 display.textContent = `${- +(display.textContent)}`;
                 presentNum = +(display.textContent);
                 break;
+            case ("percent"):
+                display.textContent = `${Math.round(+(display.textContent)/100*10000000)/10000000}`;
+                presentNum = +(display.textContent);
         }         
     })
 })

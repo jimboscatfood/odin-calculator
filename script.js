@@ -215,6 +215,11 @@ functions.forEach((button) => {
             case ("percent"):
                 display.textContent = `${Math.round(+(display.textContent)/100*10000000)/10000000}`;
                 presentNum = +(display.textContent);
+                break;
+            case ("delete"):
+                display.textContent = display.textContent.slice(0,-1);
+                presentNum = +(display.textContent);
+                break;
         }         
     })
 })

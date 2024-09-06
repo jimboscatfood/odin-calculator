@@ -181,7 +181,7 @@ operators.forEach((button) => {
             if (prevNum !== undefined && presentNum !== undefined && operator!== undefined) {
                 operate(operator, prevNum, presentNum);
             }
-            //Only lock in the value of the firstNum when an operator is clicked
+            //Only assign value for prevNum when an operator is clicked
             prevNum = +(display.textContent);
             //Change value of operator based on button clicked
             changeOperator(button.id);
@@ -209,7 +209,9 @@ functions.forEach((button) => {
                 break;
             //Switch signs
             case ("signs"):
-
+                display.textContent = `${- +(display.textContent)}`;
+                presentNum = +(display.textContent);
+                break;
         }         
     })
 })

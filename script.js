@@ -105,20 +105,20 @@ decimal.addEventListener("click", () => {
 //Create function for adding numbers
 //The userInput can either be from button or keyboard
 function addNumbers(userInput) {
-    const number = +(userInput);
+    const num = +(userInput);
     if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
-        display.textContent = `${number}`;
+        display.textContent = `${num}`;
     }
     //Add a condition to reset and display number after the equal button
     else if (prevButton === 'equal') {
         clear();
-        display.textContent = `${number}`;
+        display.textContent = `${num}`;
     }
     else if (display.textContent === `${prevNum}`) {
-        display.textContent = `${number}`;
+        display.textContent = `${num}`;
     }
     else {
-        display.textContent += `${number}`;
+        display.textContent += `${num}`;
     }
     presentNum = +(display.textContent);
     //After clicking the number button, record the prevButton pressed
@@ -135,19 +135,19 @@ numKeys.forEach((button) => {
 //Listen for number keys from pressing keyboard
 document.addEventListener("keypress", function(event) {
     //Set up condition to only allow for numbers to be added to display
-    //IF it is a number
-    //THEN use the similar logic as mouseclicking the numKeys
+    //IF it is a number, THEN use the similar logic as mouseclicking the numKeys
     if (!isNaN(parseInt(event.key))) {
         addNumbers(event.key);
     }
-    //ELSE IF the event key is a decimal point
-    //THEN add decimal use the same logic as mouseclicking the decimal
+    //ELSE IF the event key is a decimal point, THEN add decimal use the same logic as mouseclicking the decimal
     else if (event.key === '.') {
         addDecimal();
     }        
+    //ELSE IF it is an operator,...
     else if (event.key === '+' || event.key === '-' || event.key === '*' || event.key === '/') {
-        
+        chooseOperator(event.key);
     }
+
 });
 
 
@@ -155,55 +155,63 @@ document.addEventListener("keypress", function(event) {
 let prevButton = undefined;
 
 //Create function for changing value operator variable
-function changeOperator(buttonID) {
-    switch (buttonID) {
-        case ("divide"):
+function changeOperator(buttonValue) {
+    switch (buttonValue) {
+        case ("/"):
             operator = '/';
             break;
-        case ("multiply"):
+        case ("*"):
             operator = '*';
             break;
-        case ("subtract"):
+        case ("-"):
             operator = '-';
             break;
-        case ("add"):
+        case ("+"):
             operator = '+';
             break;
     }
 }
 
+//Create function for selecting or changing operator
+//userInput can either be buttons or keyboard
+function chooseOperator(userInput) {
+    //Create a variable to store the initial userInput
+    const op = userInput;
+    //Cases when operator will be pressed
+    //1. Selecting another operator when user already clicked on one
+    //2. After a result is displayed after user clicked on equal button
+    //3. Any other conditions
+    //Case 1
+    //Check if previous button clicked is an operator 
+    //If yes then just change the operator variable and do nothing else
+    if (prevButton === 'operator') {
+        changeOperator(op);
+    }
+    //Case 2
+    else if (prevButton === 'equal') {
+        //Store the displayed results to prevNum
+        prevNum = +(display.textContent);
+        //Change operator value stored for the next operation
+        changeOperator(op);
+    }
+    else {
+        //Add a statement to handle more than 2/ a pair of numbers
+        if (prevNum !== undefined && presentNum !== undefined && operator!== undefined) {
+            operate(operator, prevNum, presentNum);
+        }
+        //Only assign value for prevNum when an operator is clicked
+        prevNum = +(display.textContent);
+        //Change value of operator based on button clicked
+        changeOperator(op);
+    }
+    prevButton = 'operator';
+} 
+
+
 //Listen for operator
-//Cases when operator will be pressed
-//1. Selecting another operator when user already clicked on one
-//2. After a result is displayed after user clicked on equal button
-//3. Any other conditions
 operators.forEach((button) => {
     button.addEventListener("click", () => {
-        //Case 1
-        //Check if previous button clicked is an operator 
-        //If yes then just change the operator variable and do nothing else
-        if (prevButton === 'operator') {
-            changeOperator(button.id);
-        }
-
-        //Case 2
-        else if (prevButton === 'equal') {
-            //Store the displayed results to prevNum
-            prevNum = +(display.textContent);
-            //Change operator value stored for the next operation
-            changeOperator(button.id);
-        }
-        else {
-            //Add a statement to handle more than 2/ a pair of numbers
-            if (prevNum !== undefined && presentNum !== undefined && operator!== undefined) {
-                operate(operator, prevNum, presentNum);
-            }
-            //Only assign value for prevNum when an operator is clicked
-            prevNum = +(display.textContent);
-            //Change value of operator based on button clicked
-            changeOperator(button.id);
-        }
-        prevButton = button.className;    
+        chooseOperator(button.value);
     });
 });
 

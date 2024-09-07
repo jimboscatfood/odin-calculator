@@ -135,7 +135,7 @@ numKeys.forEach((button) => {
 });
 
 //Listen for number keys from pressing keyboard
-document.addEventListener("keypress", function(event) {
+document.addEventListener("keydown", function(event) {
     //Set up condition to only allow for numbers to be added to display
     //IF it is a number, THEN use the similar logic as mouseclicking the numKeys
     if (!isNaN(parseInt(event.key))) {
@@ -153,8 +153,14 @@ document.addEventListener("keypress", function(event) {
     else if (event.key === '=' || event.key === 'Enter') {
         equalAction();        
     }
-    
+    //ELSE IF it is the function buttons
+    else if (event.key === "Escape" || event.key === '%' || event.key === 'Backspace') {
+        chooseFunction(functionKeys[event.key]);
+   } 
+   eventKey = event.key;
 });
+
+let eventKey = undefined;
 
 //Create function for changing value operator variable
 function changeOperator(buttonValue) {
@@ -179,24 +185,21 @@ function changeOperator(buttonValue) {
 function chooseOperator(userInput) {
     //Create a variable to store the initial userInput
     const op = userInput;
-    //Cases when operator will be pressed
-    //1. Selecting another operator when user already clicked on one
-    //2. After a result is displayed after user clicked on equal button
-    //3. Any other conditions
-
-    //Case 1
+    
+    //Case 1: Selecting another operator when user already clicked on one
     //Check if previous button clicked is an operator 
     //If yes then just change the operator variable and do nothing else
     if (prevButton === 'operator') {
         changeOperator(op);
     }
-    //Case 2
+    //Case 2: After a result is displayed after user clicked on equal button
     else if (prevButton === 'equal') {
         //Store the displayed results to prevNum
         prevNum = +(display.textContent);
         //Change operator value stored for the next operation
         changeOperator(op);
     }
+    //Case 3. Any other conditions
     else {
         //Add a statement to handle more than 2/ a pair of numbers
         if (prevNum !== undefined && presentNum !== undefined && operator!== undefined) {
@@ -231,28 +234,41 @@ equal.addEventListener("click", () => {
     equalAction();
 });
 
+//Create an object/ dictionary for function buttons
+//Key is is keyboard key (event key), value is button id 
+const functionKeys  = {
+    'Escape': 'clear',
+    '%': 'percent',
+    'Backspace': 'delete'
+};
+
+//Create function for function buttons
+function chooseFunction(userInput) {
+    switch (userInput) {
+        case ("clear"):
+            clear();
+            break;
+        //Switch signs
+        case ("signs"):
+            display.textContent = `${- +(display.textContent)}`;
+            presentNum = +(display.textContent);
+            break;
+        case ("percent"):
+            display.textContent = `${Math.round(+(display.textContent)/100*10000000)/10000000}`;
+            presentNum = +(display.textContent);
+            break;
+        case ("delete"):
+            display.textContent = display.textContent.slice(0,-1);
+            presentNum = +(display.textContent);
+            break;
+    }
+    prevButton = 'function';
+}
+
 //Listen for function buttons
 const functions = document.querySelectorAll(".function");
 functions.forEach((button) => {
     button.addEventListener("click", () => {
-        switch (button.id) {
-            case ("clear"):
-                clear();
-                break;
-            //Switch signs
-            case ("signs"):
-                display.textContent = `${- +(display.textContent)}`;
-                presentNum = +(display.textContent);
-                break;
-            case ("percent"):
-                display.textContent = `${Math.round(+(display.textContent)/100*10000000)/10000000}`;
-                presentNum = +(display.textContent);
-                break;
-            case ("delete"):
-                display.textContent = display.textContent.slice(0,-1);
-                presentNum = +(display.textContent);
-                break;
-        }         
+        chooseFunction(button.id);
     });
 });
-

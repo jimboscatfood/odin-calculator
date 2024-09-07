@@ -77,40 +77,21 @@ const decimal = document.querySelector("#decimal");
 
 //Function for adding decimal point
 function addDecimal() {
-    //If the display includes decimal point
-    if (display.textContent.includes('.')) {
-        //Check if the last button is an operator
-        if (prevButton === 'operator') {
-            //If it is an operator, display 0 before the decimal point
-            display.textContent = '0' + `.`;
-        }
-        else if (prevButton === 'equal') {
-            display.textContent = '0' + `.`;
-            //Reset the stored values in global variables
-            operator = undefined;
-            prevNum = undefined;
-            presentNum = 0;
-        }
+    //Check if the last button is an operator
+    if (prevButton === 'operator') {
+        //If it is an operator, display 0 before the decimal point
+        display.textContent = '0' + `.`;
     }
-    //If the display doesn't have decimal point
-    else {
-        //Also check if the last button is an operator
-        if (prevButton === 'operator') {
-            //If it is an operator, display 0 before the decimal point
-            display.textContent = '0' + `.`;
-        }
-        //If the decimal point button is pressed after equal button is pressed, the storage should reset
-        else if (prevButton === 'equal') {
-            display.textContent = '0' + `.`;
-            //Reset the stored values in global variables
-            operator = undefined;
-            prevNum = undefined;
-            presentNum = 0;
-        }
-        //Else just add the decimal point to the display
-        else {
-            display.textContent += `.`;
-        }
+    else if (prevButton === 'equal') {
+        display.textContent = '0' + `.`;
+        //Reset the stored values in global variables
+        operator = undefined;
+        prevNum = undefined;
+        presentNum = 0;
+    }
+    //Else check if the display includes decimal point
+    else if (!display.textContent.includes('.')) {
+        display.textContent += '.';
     }
 }
 
@@ -133,25 +114,25 @@ numKeys.forEach((button) => {
             display.textContent += `${keyInput}`;
         }
         presentNum = +(display.textContent);
+        //After clicking the number button, record the prevButton pressed
         prevButton = button.className;
     });
 });
 
 //Listen for number keys from pressing keyboard
 document.addEventListener("keypress", function(event) {
-    const keyInput = parseInt(event.key);
     //Set up condition to only allow for numbers to be added to display
     //IF it is a number
     //THEN use the similar logic as mouseclicking the numKeys
-    if (!isNaN(keyInput)) {
+    if (!isNaN(parseInt(event.key))) {
         if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
-            display.textContent = `${keyInput}`;
+            display.textContent = `${+(event.key)}`;
         }
         else if (display.textContent === `${prevNum}`) {
-            display.textContent = `${keyInput}`;
+            display.textContent = `${+(event.key)}`;
         }
         else {
-            display.textContent += `${keyInput}`;
+            display.textContent += `${+(event.key)}`;
         }
         presentNum = +(display.textContent);
         prevButton = 'numKey';

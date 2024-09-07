@@ -157,10 +157,7 @@ document.addEventListener("keydown", function(event) {
     else if (event.key === "Escape" || event.key === '%' || event.key === 'Backspace') {
         chooseFunction(functionKeys[event.key]);
    } 
-   eventKey = event.key;
 });
-
-let eventKey = undefined;
 
 //Create function for changing value operator variable
 function changeOperator(buttonValue) {

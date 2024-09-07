@@ -71,6 +71,8 @@ let prevNum;
 let operator;
 //Initialise presentNum to be what is being display on screen intially i.e., 0
 let presentNum = +(display.textContent);
+//Declare global variable to track the class of last button clicked
+let prevButton = undefined;
 
 //Make reference to decimal point button
 const decimal = document.querySelector("#decimal");
@@ -147,12 +149,12 @@ document.addEventListener("keypress", function(event) {
     else if (event.key === '+' || event.key === '-' || event.key === '*' || event.key === '/') {
         chooseOperator(event.key);
     }
-
+    //ELSE IF it is equal button
+    else if (event.key === '=' || event.key === 'Enter') {
+        equalAction();        
+    }
+    
 });
-
-
-//Declare global variable to track the class of last button clicked
-let prevButton = undefined;
 
 //Create function for changing value operator variable
 function changeOperator(buttonValue) {
@@ -181,6 +183,7 @@ function chooseOperator(userInput) {
     //1. Selecting another operator when user already clicked on one
     //2. After a result is displayed after user clicked on equal button
     //3. Any other conditions
+
     //Case 1
     //Check if previous button clicked is an operator 
     //If yes then just change the operator variable and do nothing else
@@ -207,7 +210,6 @@ function chooseOperator(userInput) {
     prevButton = 'operator';
 } 
 
-
 //Listen for operator
 operators.forEach((button) => {
     button.addEventListener("click", () => {
@@ -215,13 +217,18 @@ operators.forEach((button) => {
     });
 });
 
-//Listen for Equal button
-const equal = document.querySelector("#equal");
-equal.addEventListener("click", () => {
+//Create function for dealing with the equal button
+function equalAction() {
     //Check if anything has been entered, if not then display 0
     prevNum == undefined || prevButton === 'equal'?
     display.textContent = `${presentNum}`:operate(operator, prevNum, presentNum);
     prevButton = "equal";
+}
+
+//Listen for Equal button
+const equal = document.querySelector("#equal");
+equal.addEventListener("click", () => {
+    equalAction();
 });
 
 //Listen for function buttons

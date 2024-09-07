@@ -75,16 +75,17 @@ let presentNum = +(display.textContent);
 //Make reference to decimal point button
 const decimal = document.querySelector("#decimal");
 
-decimal.addEventListener("click", function() {
+//Function for adding decimal point
+function addDecimal() {
     //If the display includes decimal point
     if (display.textContent.includes('.')) {
         //Check if the last button is an operator
         if (prevButton === 'operator') {
             //If it is an operator, display 0 before the decimal point
-            display.textContent = '0' + `${decimal.textContent}`;
+            display.textContent = '0' + `.`;
         }
         else if (prevButton === 'equal') {
-            display.textContent = '0' + `${decimal.textContent}`;
+            display.textContent = '0' + `.`;
             //Reset the stored values in global variables
             operator = undefined;
             prevNum = undefined;
@@ -96,29 +97,32 @@ decimal.addEventListener("click", function() {
         //Also check if the last button is an operator
         if (prevButton === 'operator') {
             //If it is an operator, display 0 before the decimal point
-            display.textContent = '0' + `${decimal.textContent}`;
+            display.textContent = '0' + `.`;
         }
         //If the decimal point button is pressed after equal button is pressed, the storage should reset
         else if (prevButton === 'equal') {
-            display.textContent = '0' + `${decimal.textContent}`;
+            display.textContent = '0' + `.`;
             //Reset the stored values in global variables
             operator = undefined;
             prevNum = undefined;
             presentNum = 0;
         }
-            //Else just add the decimal point to the display
+        //Else just add the decimal point to the display
         else {
-            display.textContent += `${decimal.textContent}`;
+            display.textContent += `.`;
         }
-        
     }
+}
+
+//Event listener for mouse clicking demical button
+decimal.addEventListener("click", () => {
+    addDecimal();
 });
 
-//Listen for number keys
+//Event listener for number keys
 numKeys.forEach((button) => {
     button.addEventListener("click", function() {
         const keyInput = button.textContent;
-        
         if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
             display.textContent = `${keyInput}`;
         }
@@ -153,43 +157,12 @@ document.addEventListener("keypress", function(event) {
         prevButton = 'numKey';
     }
     //ELSE IF the event key is a decimal point
-    //THEN use the same logic as mouseclicking the decimal
+    //THEN add decimal use the same logic as mouseclicking the decimal
     else if (event.key === '.') {
-        //If the display includes decimal point
-        if (display.textContent.includes('.')) {
-            //Check if the last button is an operator
-            if (prevButton === 'operator') {
-                //If it is an operator, display 0 before the decimal point
-                display.textContent = '0' + `${decimal.textContent}`;
-            }
-            else if (prevButton === 'equal') {
-                display.textContent = '0' + `${decimal.textContent}`;
-                //Reset the stored values in global variables
-                operator = undefined;
-                prevNum = undefined;
-                presentNum = 0;
-            }
-        }
-        //If the display doesn't have decimal point
-        else {
-            //Also check if the last button is an operator
-            if (prevButton === 'operator') {
-                //If it is an operator, display 0 before the decimal point
-                display.textContent = '0' + `${decimal.textContent}`;
-            }
-            //If the decimal point button is pressed after equal button is pressed, the storage should reset
-            else if (prevButton === 'equal') {
-                display.textContent = '0' + `${decimal.textContent}`;
-                //Reset the stored values in global variables
-                operator = undefined;
-                prevNum = undefined;
-                presentNum = 0;
-            }
-                //Else just add the decimal point to the display
-            else {
-                display.textContent += `${decimal.textContent}`;
-            }
-        }        
+        addDecimal();
+    }        
+    else if (event.key === '+' || event.key === '-' || event.key === '*' || event.key === '/') {
+        
     }
 });
 

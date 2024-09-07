@@ -81,6 +81,7 @@ function addDecimal() {
     if (prevButton === 'operator') {
         //If it is an operator, display 0 before the decimal point
         display.textContent = '0' + `.`;
+        presentNum = 0;
     }
     else if (prevButton === 'equal') {
         display.textContent = '0' + `.`;
@@ -93,6 +94,7 @@ function addDecimal() {
     else if (!display.textContent.includes('.')) {
         display.textContent += '.';
     }
+    prevButton = 'decimal';
 }
 
 //Event listener for mouse clicking demical button
@@ -100,22 +102,28 @@ decimal.addEventListener("click", () => {
     addDecimal();
 });
 
-//Event listener for number keys
+//Create function for adding numbers
+//The userInput can either be from button or keyboard
+function addNumbers(userInput) {
+    const number = +(userInput);
+    if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
+        display.textContent = `${number}`;
+    }
+    else if (display.textContent === `${prevNum}`) {
+        display.textContent = `${number}`;
+    }
+    else {
+        display.textContent += `${number}`;
+    }
+    presentNum = +(display.textContent);
+    //After clicking the number button, record the prevButton pressed
+    prevButton = 'number';
+}
+
+//Event listener for mouse clicking number button 
 numKeys.forEach((button) => {
-    button.addEventListener("click", function() {
-        const keyInput = button.textContent;
-        if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
-            display.textContent = `${keyInput}`;
-        }
-        else if (display.textContent === `${prevNum}`) {
-            display.textContent = `${keyInput}`;
-        }
-        else {
-            display.textContent += `${keyInput}`;
-        }
-        presentNum = +(display.textContent);
-        //After clicking the number button, record the prevButton pressed
-        prevButton = button.className;
+    button.addEventListener("click", () => {
+        addNumbers(button.textContent)
     });
 });
 
@@ -125,17 +133,7 @@ document.addEventListener("keypress", function(event) {
     //IF it is a number
     //THEN use the similar logic as mouseclicking the numKeys
     if (!isNaN(parseInt(event.key))) {
-        if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
-            display.textContent = `${+(event.key)}`;
-        }
-        else if (display.textContent === `${prevNum}`) {
-            display.textContent = `${+(event.key)}`;
-        }
-        else {
-            display.textContent += `${+(event.key)}`;
-        }
-        presentNum = +(display.textContent);
-        prevButton = 'numKey';
+        addNumbers(event.key);
     }
     //ELSE IF the event key is a decimal point
     //THEN add decimal use the same logic as mouseclicking the decimal
@@ -190,7 +188,6 @@ operators.forEach((button) => {
             //Change operator value stored for the next operation
             changeOperator(button.id);
         }
-        
         else {
             //Add a statement to handle more than 2/ a pair of numbers
             if (prevNum !== undefined && presentNum !== undefined && operator!== undefined) {

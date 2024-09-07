@@ -109,6 +109,11 @@ function addNumbers(userInput) {
     if (display.textContent === '0' || prevButton === 'operator' && !display.textContent.includes('.')) {
         display.textContent = `${number}`;
     }
+    //Add a condition to reset and display number after the equal button
+    else if (prevButton === 'equal') {
+        clear();
+        display.textContent = `${number}`;
+    }
     else if (display.textContent === `${prevNum}`) {
         display.textContent = `${number}`;
     }

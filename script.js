@@ -59,7 +59,7 @@ function clear() {
 }
 
 //Populate the display when you click the number buttons
-const display = document.querySelector(".display");
+const display = document.querySelector(".displayOutput");
 const numKeys = document.querySelectorAll(".numKey");
 const operators = document.querySelectorAll(".operator");
 //Default display

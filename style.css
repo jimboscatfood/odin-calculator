@@ -5,24 +5,42 @@
 }
 
 body {
-    background-color:wheat;
+    background-color:#F0FFFF;
+    padding:10% 0;
 }
 
 .frame {
     margin:auto auto;
-    background-color: #beaeab;
+    border:medium solid black;
+    border-radius: 5%;
     
-    width:500px;
+    max-width:500px;
     height:700px;
     display:flex;
     flex-flow: column wrap;
     align-items:stretch;
+    overflow:hidden;
 }
 
 .display {
     border:black solid;
-    background-color:grey;
-    flex:2 0 auto;
+    background-color:#404040;
+    flex:0.5 0 auto;
+
+    display:flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-wrap:wrap;
+    max-width:100%;
+}
+
+.displayOutput {
+    padding: 0px 15px;
+    font-size: 5rem;
+    
+    color:white;
+    word-wrap: break-word;
+    overflow-y:auto;
 }
 
 .buttons {
@@ -30,6 +48,7 @@ body {
     flex-flow:column wrap;
     align-items:stretch;
     flex:5 0 auto;
+    
 }
 
 .row1, .row2, .row3, .row4, .row5 {
@@ -40,9 +59,21 @@ body {
 }
 
 button {
-    flex:1 0 auto;
+    flex:1 0 0;
+    font-size: 1.5rem;
+    color:white;
+    border:1px solid black;
 }
 
-#button0 {
-    flex:2 0 auto;
+.operator, #equal {
+    background-color:coral;
+    font-size: 2.5rem;
+}
+
+.numKey, #percent, #decimal{
+    background-color: darkgray;
+}
+
+.row1 > .function {
+    background-color: dimgray;
 }
